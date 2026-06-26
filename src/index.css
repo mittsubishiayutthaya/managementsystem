@@ -3,32 +3,54 @@
 @layer base {
   body {
     font-family: 'Prompt', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #0b0f19; /* Carbon deep slate background */
+    color: #f1f5f9; /* Slate-100 high readability */
   }
 }
 
-/* Glassmorphism Card Style */
+/* Premium Business Card (Clean Glassmorphism) */
 .glass-card {
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(17, 24, 39, 0.75); /* Darker and more opaque for high contrast */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
 }
 
-/* Glow effects */
-.glow-blue {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.12);
-}
-.glow-green {
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.12);
-}
-.glow-purple {
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.12);
-}
-.glow-orange {
-  box-shadow: 0 0 20px rgba(249, 115, 22, 0.12);
+/* Professional Colors (High Legibility, No glowing accents) */
+.border-active-blue {
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
-/* Scrollbar behaviors */
+.border-active-green {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.border-active-purple {
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+.border-active-orange {
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Scrollbar styles (Thin & clean for tables) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.5);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -37,7 +59,12 @@
   scrollbar-width: none;
 }
 
-/* Interactive animations */
-.transition-all-300 {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Card Interactive hover state (Clean transition, no neon) */
+.card-hover-effect {
+  transition: all 0.2s ease-in-out;
+}
+.card-hover-effect:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
 }

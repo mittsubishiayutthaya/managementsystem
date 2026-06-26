@@ -47,7 +47,7 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
     return `${value.toLocaleString()} บาท`;
   };
 
-  // Slides for mobile KPI Carousel
+  // Slides for mobile KPI Carousel (Highly readable font sizes for 30-50 year olds)
   const kpiSlides = [
     {
       title: 'ยอดขายสะสมเดือนนี้',
@@ -56,28 +56,25 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
       percent: Math.round((displaySales / displayTarget) * 100),
       icon: DollarSign,
       color: 'blue',
-      glow: 'glow-blue',
-      trend: `${displayGrowth}% MoM`
+      trend: `เติบโต ${displayGrowth}% MoM`
     },
     {
-      title: 'มูลค่าอะไหล่คงเหลือ',
+      title: 'มูลค่าอะไหล่คงคลังรวม',
       value: formatBaht(displayInventory),
-      target: 'จุดสั่งซื้อวิกฤต < 15 รายการ',
+      target: 'เกณฑ์ควบคุมสต็อกต่ำกว่า 15 รายการ',
       percent: 74, // placeholder percent health
       icon: Boxes,
       color: 'purple',
-      glow: 'glow-purple',
-      trend: 'เสถียร'
+      trend: 'ระดับสต็อกคงที่'
     },
     {
-      title: 'ยอดส่งมอบรถยนต์',
+      title: 'ยอดส่งมอบรถยนต์สะสม',
       value: `${displayCars} คัน`,
-      target: `เป้าหมาย ${displayTargetCars} คัน`,
+      target: `เป้าหมายส่งมอบ ${displayTargetCars} คัน`,
       percent: Math.round((displayCars / displayTargetCars) * 100),
       icon: Car,
       color: 'green',
-      glow: 'glow-green',
-      trend: `+12 คันสัปดาห์นี้`
+      trend: `สัปดาห์นี้ส่งแล้ว +12 คัน`
     }
   ];
 
@@ -95,17 +92,17 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
   // Custom SVG Bar Chart calculation (Sales Comparison between branches)
   const maxSales = 12000000;
   const branchChartData = [
-    { name: 'อยุธยา 1', value: kpis.branch_kpi.B01.total_sales_mtd, color: '#3b82f6' },
-    { name: 'อยุธยา 2', value: kpis.branch_kpi.B02.total_sales_mtd, color: '#a855f7' },
-    { name: 'OMODA & JAECOO', value: kpis.branch_kpi.B03.total_sales_mtd, color: '#22c55e' }
+    { name: 'Mitsubishi อยุธยา 1', value: kpis.branch_kpi.B01.total_sales_mtd, color: '#3b82f6' },
+    { name: 'Mitsubishi อยุธยา 2', value: kpis.branch_kpi.B02.total_sales_mtd, color: '#a855f7' },
+    { name: 'OMODA & JAECOO อยุธยา', value: kpis.branch_kpi.B03.total_sales_mtd, color: '#10b981' }
   ];
 
-  // Custom SVG Line Chart for 6 months
+  // Custom SVG Line Chart for 6 months (Structured with grids and clear fonts)
   const lineChartData = mockData.sales_comparison_mock;
   const maxLineVal = 12000000;
-  const chartHeight = 120;
-  const chartWidth = 320;
-  const padding = 25;
+  const chartHeight = 140;
+  const chartWidth = 330;
+  const padding = 30;
 
   // Generate SVG coordinates for Line Chart
   const getLineCoordinates = (branchKey) => {
@@ -118,14 +115,14 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
   };
 
   return (
-    <div className="pb-32 pt-4 px-4 max-w-md mx-auto space-y-6">
+    <div className="pb-32 pt-4 px-4 max-w-md mx-auto space-y-6 font-prompt">
       
       {/* Filters Header */}
       <div className="flex flex-col space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold tracking-tight text-white font-prompt">ภาพรวมธุรกิจ</h1>
-            <p className="text-xs text-slate-400">อัปเดตล่าสุด: วันนี้ 14:15 น.</p>
+            <h1 className="text-lg font-bold tracking-tight text-white">รายงานผลภาพรวม</h1>
+            <p className="text-xs text-slate-400">อัปเดตข้อมูลล่าสุด: วันนี้ 14:15 น.</p>
           </div>
           
           <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-700">
@@ -140,14 +137,14 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
             <select
               value={selectedBranch}
               onChange={(e) => setSelectedBranch(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-800 text-slate-200 text-xs rounded-xl px-3 py-2.5 appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium"
+              className="w-full bg-[#0f172a] border border-slate-800 text-slate-200 text-xs rounded-xl px-3 py-3 appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500 font-bold"
             >
-              <option value="ALL">เลือก: ทุกสาขา</option>
+              <option value="ALL">สาขา: ทุกสาขาในเครือ</option>
               {mockData.branches.map((b) => (
                 <option key={b.id} value={b.id}>{b.name}</option>
               ))}
             </select>
-            <div className="absolute right-3 top-3 pointer-events-none text-slate-400">
+            <div className="absolute right-3 top-3.5 pointer-events-none text-slate-400">
               <Filter size={14} />
             </div>
           </div>
@@ -157,12 +154,12 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
             <select
               value={period}
               onChange={(e) => setPeriod(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-800 text-slate-200 text-xs rounded-xl px-3 py-2.5 appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium"
+              className="w-full bg-[#0f172a] border border-slate-800 text-slate-200 text-xs rounded-xl px-3 py-3 appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500 font-bold"
             >
-              <option value="june">รอบ: มิ.ย. 2569 (ปัจจุบัน)</option>
-              <option value="may">รอบ: พ.ค. 2569</option>
+              <option value="june">รอบบัญชี: มิ.ย. 2569</option>
+              <option value="may">รอบบัญชี: พ.ค. 2569</option>
             </select>
-            <div className="absolute right-3 top-3 pointer-events-none text-slate-400">
+            <div className="absolute right-3 top-3.5 pointer-events-none text-slate-400">
               <ChevronRight size={14} className="rotate-90" />
             </div>
           </div>
@@ -171,40 +168,40 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
 
       {/* KPI Carousel Slider (Swipeable Cards on Mobile) */}
       <div className="relative">
-        <div className={`rounded-2xl glass-card p-5 relative overflow-hidden ${currentSlide.glow} transition-all duration-500`}>
+        <div className="rounded-2xl glass-card p-5 border border-slate-800 transition-all duration-300">
           {/* Top Info */}
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-medium text-slate-400">{currentSlide.title}</span>
-            <div className={`p-2 rounded-xl bg-slate-900/80 text-blue-400`}>
+            <span className="text-xs font-bold text-slate-300">{currentSlide.title}</span>
+            <div className="p-2 rounded-xl bg-slate-900 text-blue-400 border border-slate-800">
               <SlideIcon size={18} />
             </div>
           </div>
 
           {/* Main Metric */}
-          <div className="space-y-1 mb-4">
+          <div className="space-y-1.5 mb-4">
             <h2 className="text-2xl font-bold text-white tracking-tight font-prompt">{currentSlide.value}</h2>
-            <div className="flex items-center space-x-1.5 text-xs">
-              <span className="text-emerald-400 font-semibold flex items-center">
-                <TrendingUp size={12} className="mr-0.5" />
+            <div className="flex items-center space-x-2 text-xs">
+              <span className="text-emerald-400 font-bold flex items-center">
+                <TrendingUp size={13} className="mr-0.5" />
                 {currentSlide.trend}
               </span>
-              <span className="text-slate-500">|</span>
-              <span className="text-slate-400">{currentSlide.target}</span>
+              <span className="text-slate-600">|</span>
+              <span className="text-slate-400 font-medium">{currentSlide.target}</span>
             </div>
           </div>
 
           {/* Progress Bar */}
-          <div className="space-y-1">
-            <div className="flex justify-between text-[10px] text-slate-500 font-medium">
-              <span>ความคืบหน้า</span>
+          <div className="space-y-1.5">
+            <div className="flex justify-between text-xs text-slate-400 font-bold">
+              <span>ความคืบหน้าภาพรวม</span>
               <span>{currentSlide.percent}%</span>
             </div>
-            <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden">
+            <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-900">
               <div 
                 className={`h-full rounded-full transition-all duration-1000 ${
-                  currentSlide.color === 'blue' ? 'bg-gradient-to-r from-blue-600 to-cyan-400' :
-                  currentSlide.color === 'purple' ? 'bg-gradient-to-r from-purple-600 to-pink-400' :
-                  'bg-gradient-to-r from-emerald-600 to-teal-400'
+                  currentSlide.color === 'blue' ? 'bg-blue-600' :
+                  currentSlide.color === 'purple' ? 'bg-purple-600' :
+                  'bg-emerald-600'
                 }`}
                 style={{ width: `${Math.min(currentSlide.percent, 100)}%` }}
               />
@@ -216,7 +213,7 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
         <div className="flex items-center justify-between mt-3 px-1">
           <button 
             onClick={prevKpi}
-            className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 active:bg-slate-800"
+            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 active:bg-slate-800"
           >
             <ChevronLeft size={16} />
           </button>
@@ -227,7 +224,7 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
               <div 
                 key={index} 
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  index === kpiIndex ? 'w-4 bg-blue-400' : 'w-1.5 bg-slate-700'
+                  index === kpiIndex ? 'w-5 bg-blue-500' : 'w-2 bg-slate-700'
                 }`}
               />
             ))}
@@ -235,7 +232,7 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
 
           <button 
             onClick={nextKpi}
-            className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 active:bg-slate-800"
+            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 active:bg-slate-800"
           >
             <ChevronRight size={16} />
           </button>
@@ -243,39 +240,39 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
       </div>
 
       {/* Showroom Status Stack (Status breakdown) */}
-      <div className="glass-card rounded-2xl p-4 space-y-3">
-        <h3 className="text-xs font-semibold text-slate-400 tracking-wider uppercase font-prompt">สถานะสต็อกรถยนต์</h3>
+      <div className="glass-card rounded-2xl p-4 space-y-3.5 border border-slate-800">
+        <h3 className="text-xs font-bold text-slate-400 tracking-wider uppercase font-prompt">สรุปสถานะรถยนต์ในระบบ</h3>
         
-        <div className="grid grid-cols-2 gap-2">
-          <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-900/80 flex flex-col justify-between">
-            <span className="text-[10px] text-slate-400">พร้อมขาย</span>
+        <div className="grid grid-cols-2 gap-2.5">
+          <div className="bg-slate-900/30 p-3.5 rounded-xl border border-slate-850 flex flex-col justify-between">
+            <span className="text-xs text-slate-400 font-bold">พร้อมจำหน่าย</span>
             <div className="flex items-end justify-between mt-1">
-              <span className="text-lg font-bold text-blue-400">320 คัน</span>
-              <span className="text-[9px] text-slate-500 font-medium">45.1%</span>
+              <span className="text-lg font-bold text-blue-400 font-prompt">320 คัน</span>
+              <span className="text-xs text-slate-500 font-bold">45.1%</span>
             </div>
           </div>
 
-          <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-900/80 flex flex-col justify-between">
-            <span className="text-[10px] text-slate-400">จองแล้ว</span>
+          <div className="bg-slate-900/30 p-3.5 rounded-xl border border-slate-850 flex flex-col justify-between">
+            <span className="text-xs text-slate-400 font-bold">จองแล้ว</span>
             <div className="flex items-end justify-between mt-1">
-              <span className="text-lg font-bold text-emerald-400">87 คัน</span>
-              <span className="text-[9px] text-slate-500 font-medium">12.3%</span>
+              <span className="text-lg font-bold text-emerald-400 font-prompt">87 คัน</span>
+              <span className="text-xs text-slate-500 font-bold">12.3%</span>
             </div>
           </div>
 
-          <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-900/80 flex flex-col justify-between">
-            <span className="text-[10px] text-slate-400">รอไฟแนนซ์</span>
+          <div className="bg-slate-900/30 p-3.5 rounded-xl border border-slate-850 flex flex-col justify-between">
+            <span className="text-xs text-slate-400 font-bold">ลูกค้ากู้ไฟแนนซ์</span>
             <div className="flex items-end justify-between mt-1">
-              <span className="text-lg font-bold text-purple-400">56 คัน</span>
-              <span className="text-[9px] text-slate-500 font-medium">7.9%</span>
+              <span className="text-lg font-bold text-purple-400 font-prompt">56 คัน</span>
+              <span className="text-xs text-slate-500 font-bold">7.9%</span>
             </div>
           </div>
 
-          <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-900/80 flex flex-col justify-between">
-            <span className="text-[10px] text-slate-400">รอส่งมอบ</span>
+          <div className="bg-slate-900/30 p-3.5 rounded-xl border border-slate-850 flex flex-col justify-between">
+            <span className="text-xs text-slate-400 font-bold">เตรียมส่งมอบ</span>
             <div className="flex items-end justify-between mt-1">
-              <span className="text-lg font-bold text-orange-400">24 คัน</span>
-              <span className="text-[9px] text-slate-500 font-medium">3.4%</span>
+              <span className="text-lg font-bold text-orange-400 font-prompt">24 คัน</span>
+              <span className="text-xs text-slate-500 font-bold">3.4%</span>
             </div>
           </div>
         </div>
@@ -283,10 +280,10 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
 
       {/* SVG Sales Comparison Chart - Displays only if "ALL" is selected */}
       {isAllBranches ? (
-        <div className="glass-card rounded-2xl p-4 space-y-4">
+        <div className="glass-card rounded-2xl p-4 space-y-4 border border-slate-800">
           <div className="flex justify-between items-center">
-            <h3 className="text-xs font-semibold text-slate-400 tracking-wider uppercase font-prompt">สัดส่วนยอดขายตามสาขา (เดือนนี้)</h3>
-            <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-medium">ยอดรวม</span>
+            <h3 className="text-xs font-bold text-slate-300 tracking-wider uppercase">สัดส่วนยอดขายตามสาขา (เดือนปัจจุบัน)</h3>
+            <span className="text-[10px] text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-full font-bold border border-blue-500/20">สถิติสะสม</span>
           </div>
 
           {/* Simple Custom HTML/CSS Bar Chart for Branch Comparison */}
@@ -294,18 +291,17 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
             {branchChartData.map((b, idx) => {
               const percentage = Math.round((b.value / maxSales) * 100);
               return (
-                <div key={idx} className="space-y-1">
-                  <div className="flex justify-between text-xs font-medium">
+                <div key={idx} className="space-y-1.5">
+                  <div className="flex justify-between text-xs font-bold">
                     <span className="text-slate-300">{b.name}</span>
                     <span className="text-white">{formatBaht(b.value)}</span>
                   </div>
-                  <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden flex">
+                  <div className="w-full h-3.5 bg-slate-950 rounded-full overflow-hidden border border-slate-900 flex">
                     <div 
                       className="h-full rounded-full transition-all duration-1000"
                       style={{ 
                         width: `${percentage}%`,
-                        backgroundColor: b.color,
-                        boxShadow: `0 0 10px ${b.color}80`
+                        backgroundColor: b.color
                       }}
                     />
                   </div>
@@ -315,66 +311,56 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
           </div>
         </div>
       ) : (
-        // Render 6-Month Line Trend Chart if single branch is selected
-        <div className="glass-card rounded-2xl p-4 space-y-4">
+        // Render 6-Month Line Trend Chart if single branch is selected (with clear grid)
+        <div className="glass-card rounded-2xl p-4 space-y-4 border border-slate-800">
           <div className="flex justify-between items-center">
-            <h3 className="text-xs font-semibold text-slate-400 tracking-wider uppercase font-prompt">
-              แนวโน้มยอดขายย้อนหลัง 6 เดือน
+            <h3 className="text-xs font-bold text-slate-300 tracking-wider uppercase">
+              แนวโน้มยอดขายรายเดือนย้อนหลัง
             </h3>
-            <span className="text-[10px] text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full font-medium">
+            <span className="text-[10px] text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-full font-bold">
               {mockData.branches.find(b => b.id === selectedBranch)?.name}
             </span>
           </div>
 
-          {/* Custom SVG Line Chart */}
+          {/* Custom SVG Line Chart with Grid Lines */}
           <div className="flex justify-center items-center">
             <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-auto overflow-visible">
-              {/* Grid Lines */}
-              <line x1={padding} y1={padding} x2={chartWidth - padding} y2={padding} stroke="#1e293b" strokeDasharray="3,3" />
-              <line x1={padding} y1={chartHeight / 2} x2={chartWidth - padding} y2={chartHeight / 2} stroke="#1e293b" strokeDasharray="3,3" />
-              <line x1={padding} y1={chartHeight - padding} x2={chartWidth - padding} y2={chartHeight - padding} stroke="#334155" />
+              {/* Horizontal Grid lines and values */}
+              <line x1={padding} y1={padding} x2={chartWidth - padding} y2={padding} stroke="#1e293b" />
+              <line x1={padding} y1={chartHeight / 2} x2={chartWidth - padding} y2={chartHeight / 2} stroke="#1e293b" />
+              <line x1={padding} y1={chartHeight - padding} x2={chartWidth - padding} y2={chartHeight - padding} stroke="#334155" strokeWidth="1.5" />
 
               {/* Draw Data Area Line */}
               {(() => {
                 const points = getLineCoordinates(selectedBranch);
                 const pathD = points.reduce((acc, p, i) => i === 0 ? `M ${p.x} ${p.y}` : `${acc} L ${p.x} ${p.y}`, '');
-                const areaD = `${pathD} L ${points[points.length - 1].x} ${chartHeight - padding} L ${points[0].x} ${chartHeight - padding} Z`;
-                const lineColor = selectedBranch === 'B01' ? '#3b82f6' : selectedBranch === 'B02' ? '#a855f7' : '#22c55e';
+                const lineColor = selectedBranch === 'B01' ? '#3b82f6' : selectedBranch === 'B02' ? '#a855f7' : '#10b981';
                 
                 return (
                   <>
-                    {/* Gradient Fill under Line */}
-                    <defs>
-                      <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor={lineColor} stopOpacity="0.25" />
-                        <stop offset="100%" stopColor={lineColor} stopOpacity="0.0" />
-                      </linearGradient>
-                    </defs>
-                    <path d={areaD} fill="url(#chartGlow)" />
-                    
                     {/* Line Stroke */}
-                    <path d={pathD} fill="none" stroke={lineColor} strokeWidth="2.5" strokeLinecap="round" />
+                    <path d={pathD} fill="none" stroke={lineColor} strokeWidth="3" strokeLinecap="round" />
 
                     {/* Data Points */}
                     {points.map((p, idx) => (
-                      <circle key={idx} cx={p.x} cy={p.y} r="3.5" fill="#1e293b" stroke={lineColor} strokeWidth="2" />
+                      <circle key={idx} cx={p.x} cy={p.y} r="4" fill="#0b0f19" stroke={lineColor} strokeWidth="2.5" />
                     ))}
                   </>
                 );
               })()}
 
-              {/* X Axis Labels */}
+              {/* X Axis Labels (Larger size) */}
               {lineChartData.map((d, index) => {
                 const x = padding + (index * (chartWidth - padding * 2)) / (lineChartData.length - 1);
                 return (
                   <text 
                     key={index} 
                     x={x} 
-                    y={chartHeight - 5} 
-                    fill="#64748b" 
-                    fontSize="9" 
+                    y={chartHeight - 8} 
+                    fill="#94a3b8" 
+                    fontSize="10.5" 
                     textAnchor="middle"
-                    className="font-medium"
+                    className="font-bold"
                   >
                     {d.month}
                   </text>
@@ -386,26 +372,26 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
       )}
 
       {/* Top Sales Person Leaderboard */}
-      <div className="glass-card rounded-2xl p-4 space-y-4">
+      <div className="glass-card rounded-2xl p-4 space-y-4 border border-slate-800">
         <div className="flex justify-between items-center">
-          <h3 className="text-xs font-semibold text-slate-400 tracking-wider uppercase font-prompt">5 อันดับพนักงานขายยอดเยี่ยม</h3>
-          <div className="flex items-center space-x-1 text-[10px] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full font-medium">
-            <Award size={10} />
-            <span>พ.ค. - มิ.ย.</span>
+          <h3 className="text-xs font-bold text-slate-300 tracking-wider uppercase">สรุปผลงานที่ปรึกษาการขายยอดเยี่ยม</h3>
+          <div className="flex items-center space-x-1 text-xs text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded-full font-bold border border-amber-500/20">
+            <Award size={12} />
+            <span>ยอดสะสม</span>
           </div>
         </div>
 
-        <div className="divide-y divide-slate-900/60">
-          {mockData.salesperson_ranking.map((salesrep, index) => (
-            <div key={index} className="flex items-center justify-between py-2.5 first:pt-0 last:pb-0">
-              <div className="flex items-center space-x-3">
+        <div className="divide-y divide-slate-800/80">
+          {mockData.salesperson_ranking.slice(0, 3).map((salesrep, index) => (
+            <div key={index} className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
+              <div className="flex items-center space-x-3.5">
                 {/* Ranking number */}
                 <span className={`text-xs font-bold w-4 text-center ${
                   index === 0 ? 'text-amber-400' :
                   index === 1 ? 'text-slate-300' :
                   index === 2 ? 'text-amber-600' : 'text-slate-500'
                 }`}>
-                  {index + 1}
+                  #{index + 1}
                 </span>
 
                 {/* Avatar */}
@@ -415,15 +401,15 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
 
                 {/* Name & Branch */}
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-slate-200">{salesrep.name}</span>
-                  <span className="text-[9px] text-slate-500">{salesrep.branch}</span>
+                  <span className="text-xs font-bold text-slate-200">{salesrep.name}</span>
+                  <span className="text-[10px] text-slate-500 font-semibold">{salesrep.branch}</span>
                 </div>
               </div>
 
               {/* Total sales figure */}
               <div className="flex items-center space-x-1">
-                <span className="text-xs font-bold text-white">{salesrep.sales}</span>
-                <span className="text-[10px] text-slate-500">คัน</span>
+                <span className="text-sm font-bold text-white">{salesrep.sales}</span>
+                <span className="text-xs text-slate-400 font-semibold">คัน</span>
               </div>
             </div>
           ))}
@@ -431,27 +417,27 @@ export default function DashboardView({ selectedBranch, setSelectedBranch }) {
       </div>
 
       {/* Critical Stock Alerts */}
-      <div className="glass-card rounded-2xl p-4 space-y-3">
+      <div className="glass-card rounded-2xl p-4 space-y-3.5 border border-slate-800">
         <div className="flex justify-between items-center text-rose-400">
           <div className="flex items-center space-x-1.5">
-            <ShieldAlert size={14} />
-            <h3 className="text-xs font-semibold tracking-wider uppercase font-prompt">การแจ้งเตือนอะไหล่วิกฤต</h3>
+            <ShieldAlert size={15} />
+            <h3 className="text-xs font-bold tracking-wider uppercase">การแจ้งเตือนงานคลังสินค้าวิกฤต</h3>
           </div>
-          <span className="text-[9px] bg-rose-500/10 px-2 py-0.5 rounded-full font-medium">ด่วนที่สุด</span>
+          <span className="text-[10px] bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded-full font-bold">แจ้งเตือนด่วน</span>
         </div>
 
         <div className="space-y-2">
-          <div className="bg-rose-500/5 border border-rose-500/10 rounded-xl p-3 flex items-start space-x-2">
-            <div className="text-[10px] text-slate-300 flex-1 space-y-1">
-              <p className="font-semibold text-slate-200">ผ้าเบรกหน้า Xpander สต็อกหมดแล้ว</p>
-              <p className="text-[9px] text-slate-500">สาขา OMODA & JAECOO อยุธยา สต็อกเหลือ 0 ชิ้น (จุดสั่งสั่งคือ 10 ชิ้น)</p>
+          <div className="bg-rose-500/5 border border-rose-500/10 rounded-xl p-3.5 flex items-start space-x-2">
+            <div className="text-xs text-slate-300 flex-1 space-y-1">
+              <p className="font-bold text-slate-200">ผ้าเบรกหน้า Xpander สต็อกหมดแล้ว</p>
+              <p className="text-[10px] text-slate-400 font-semibold">สาขา OMODA & JAECOO อยุธยา ยอดสต็อก = 0 (จุดสั่งสั่งคือ 10 ชิ้น)</p>
             </div>
           </div>
           
-          <div className="bg-amber-500/5 border border-amber-500/10 rounded-xl p-3 flex items-start space-x-2">
-            <div className="text-[10px] text-slate-300 flex-1 space-y-1">
-              <p className="font-semibold text-slate-200">แบตเตอรี่แห้ง FB 75 ต่ำกว่าเกณฑ์</p>
-              <p className="text-[9px] text-slate-500">สาขา Mitsubishi อยุธยา 1 สต็อกเหลือ 8 ชิ้น (ต่ำกว่าจุดสั่งซื้อ 10 ชิ้น)</p>
+          <div className="bg-amber-500/5 border border-amber-500/10 rounded-xl p-3.5 flex items-start space-x-2">
+            <div className="text-xs text-slate-300 flex-1 space-y-1">
+              <p className="font-bold text-slate-200">แบตเตอรี่แห้ง FB 75 ต่ำกว่าเกณฑ์ที่กำหนด</p>
+              <p className="text-[10px] text-slate-400 font-semibold">สาขา Mitsubishi อยุธยา 1 สต็อกเหลือ 8 ชิ้น (เกณฑ์ควบคุมคือ 10 ชิ้น)</p>
             </div>
           </div>
         </div>

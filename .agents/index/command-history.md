@@ -1,3 +1,9 @@
 # Command History
 
-- [14:15:00] Init: Created mobile-dashboard project structure and copied agent templates.
+- [14:15:00] User: "ขอ Implementation Plan เป็นภาษาไทย..." -> Action: แปลแผนงานเป็นภาษาไทย ก๊อบปี้โฟลเดอร์ .agents และทำการรีเซ็ตข้อมูลเก่า
+- [14:17:04] User: "ดำเนินการต่อจากที่ผมกดยกเลิกเมื่อสักครู่ได้เลย" -> Action: สร้าง task.md, สั่งสร้างโปรเจกต์ด้วย Vite React, ติดตั้ง Tailwind v4.0, ตั้งค่าโครงสร้าง และสร้าง mockData
+- [14:31:20] User: "มีหน้า webapp ตามรูปที่ส่งไปให้ไหม..." -> Action: ปรับปรุง App.jsx รองรับ Responsive สลับมุมมอง Desktop (เหมือนรูปตัวอย่าง) และ Mobile Simulator
+- [14:33:31] User: "แล้วถ้าต้องการ run บน cloud..." -> Action: ให้คำแนะนำและอธิบายทางเลือกในการโฮสต์เว็บบน Vercel
+- [19:38:11] User: "สมัคร gmail ใหม่ ต่อเข้ากับ vercel github แล้ว..." -> Action: แนะนำขั้นตอนการรัน Git init, local config และเชื่อมโยงรีโพสิทอรี
+- [11:21:02] User: "ปรับให้โทนเหมาะกับคนวัย 30-50 ได้ไหม..." -> Action: แก้ไขไฟล์ CSS และ View ต่างๆ เพื่อลดแสงนีออน ขยายขนาดตัวหนังสือให้อ่านง่ายขึ้น และทดสอบการ Build
+- [11:23:48] User: "แล้วสิ่งที่ agent ต้องทำทุกครั้งตาม .agent ได้ได้ทำหรอ" -> Action: ดำเนินการอัปเดตไฟล์ประวัติ (command-history, session-log, active และ repo-tree) ตามกฎ AGENTS.md

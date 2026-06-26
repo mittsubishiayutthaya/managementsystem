@@ -1,35 +1,37 @@
 # Active Task & Project Context
 
-**Status**: INITIAL_SETUP | Creating React + Tailwind CSS v4 prototype.
-**Current Version**: v1.0
+**Status**: READY_FOR_DEPLOY | UI redesigned for executive look (30-50yo). Build verified.
+**Current Version**: v1.1
 
 ## Rolling Summary
 - Initialized the Mobile Dashboard project.
 - Imported the AI Context Management System (`.agents` folder) from DutyRoster.
-- Configured the project branches:
-  1. Mitsubishi อยุธยา 1
-  2. Mitsubishi อยุธยา 2
-  3. OMODA & JAECOO อยุธยา
+- Configured the project branches: Mitsubishi Ayutthaya 1, Mitsubishi Ayutthaya 2, and Omoda & Jaecoo Ayutthaya.
+- Created components for Dashboard (including custom SVG charts), Inventory (with transfer simulation), and Sales activity.
+- Configured a device simulator in `App.jsx` to easily toggle between full Desktop view and a framed Mobile view.
+- Redesigned the design theme for users aged 30-50: removed flashy neon glows, increased text readability (minimum 12px for codes, 14px for descriptions), added grid lines to SVG charts, and adjusted colors to a professional slate theme.
 
 ## Current Focus
-- Initialize the Vite+React app and install Tailwind CSS v4.
-- Create mock data with high-fidelity showroom figures matching the new branch names.
-- Build the premium Mobile-First dark-themed dashboard.
+- Support user in deploying this polished prototype to GitHub and Vercel.
 
 ## Next Steps (Priority)
-1. Initialize Vite + React project structure in the `mobile-dashboard` root directory.
-2. Install Tailwind CSS v4 with Vite support.
-3. Add `mockData.js` with correct branches and showroom sales/parts data.
-4. Implement App layout, navigation, and components (`DashboardView`, `InventoryView`, `SalesView`, `Navbar`).
+1. User to run local Git commands:
+   ```bash
+   git add .
+   git commit -m "style: refine UI for professional executive layout (ages 30-50)"
+   git push
+   ```
+2. User to check the Vercel link to verify that the changes deploy successfully.
+3. User to gather feedback from managers/executives on the updated contrast and text size.
 
 ## Known Issues
 - None.
 
 ## Environment Snapshot
-- Frontend: React + Tailwind CSS v4 + Vite + Lucide React
+- Frontend: React + Tailwind CSS v4.0 + Vite + Lucide React
 - Database: Structured Mock Data (JSON)
-- Target Layout: Mobile-First Responsive (Premium Dark Theme)
+- Target Layout: Responsive Hybrid (Desktop layout + simulated mobile smartphone viewport)
 
 ---
-**Last Updated**: 2026-06-25 14:15:00
+**Last Updated**: 2026-06-26 11:24:00
 **Maintained By**: Antigravity
