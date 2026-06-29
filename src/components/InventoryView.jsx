@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { mockData } from '../data/mockData';
 
-export default function InventoryView() {
+export default function InventoryView({ isDarkMode }) {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [expandedItem, setExpandedItem] = useState(null);
@@ -49,12 +49,28 @@ export default function InventoryView() {
     return item.stock_B01 + item.stock_B02 + item.stock_B03;
   };
 
-  // Helper for stock health
+  // Helper for stock health (Traffic Light Alert System)
   const getStockStatus = (item) => {
     const total = getItemTotalStock(item);
-    if (total === 0) return { label: 'สินค้าหมด', color: 'text-rose-400 bg-rose-500/10 border-rose-500/25', icon: XCircle };
-    if (total <= item.reorder_point) return { label: 'สต็อกต่ำ', color: 'text-amber-400 bg-amber-500/10 border-amber-500/25', icon: AlertTriangle };
-    return { label: 'ปกติ', color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/25', icon: CheckCircle2 };
+    if (total === 0) {
+      return { 
+        label: '🔴 สินค้าหมด', 
+        color: isDarkMode ? 'text-rose-400 bg-rose-950/40 border-rose-900/60' : 'text-rose-700 bg-rose-50 border-rose-200' 
+      };
+    }
+    if (total <= item.reorder_point) {
+      return { 
+        label: '🟡 สต็อกต่ำ', 
+        color: isDarkMode ? 'text-amber-400 bg-amber-950/40 border-amber-900/60' : 'text-amber-700 bg-amber-50 border-amber-200' 
+      };
+    }
+    return { 
+      label: '🟢 ปกติ', 
+      color: isDarkMode 
+        ? 'text-emerald-400 bg-emerald-950/40 border-emerald-900/60' 
+        : 'text-emerald-750 bg-emerald-50 border-emerald-200', 
+      icon: CheckCircle2 
+    };
   };
 
   // Simulated Transfer Submission
@@ -89,8 +105,8 @@ export default function InventoryView() {
       
       {/* Page Header */}
       <div>
-        <h1 className="text-lg font-bold tracking-tight text-white">ตรวจสอบคลังอะไหล่สะสม</h1>
-        <p className="text-xs text-slate-400">ค้นหารายละเอียดสินค้า ตรวจสอบคงคลัง และโอนย้ายข้ามสาขา</p>
+        <h1 className={`text-lg font-bold tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>ตรวจสอบคลังอะไหล่สะสม</h1>
+        <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>ค้นหารายละเอียดสินค้า ตรวจสอบคงคลัง และโอนย้ายข้ามสาขา</p>
       </div>
 
       {/* Search Bar */}
@@ -100,7 +116,11 @@ export default function InventoryView() {
           placeholder="ค้นหาด้วยรหัสอะไหล่ หรือชื่อสินค้า..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-[#0f172a] border border-slate-800 text-slate-200 text-xs rounded-xl pl-10 pr-4 py-3.5 focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder-slate-500 font-medium"
+          className={`w-full border text-xs rounded-xl pl-10 pr-4 py-3.5 focus:outline-none focus:ring-1 focus:ring-blue-500 font-medium transition-colors ${
+            isDarkMode 
+              ? 'bg-[#0f172a] border-slate-800 text-slate-200 placeholder-slate-500' 
+              : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400 shadow-sm'
+          }`}
         />
         <div className="absolute left-3.5 top-4 text-slate-400">
           <Search size={16} />
@@ -115,8 +135,8 @@ export default function InventoryView() {
             onClick={() => setSelectedCategory(cat)}
             className={`text-xs px-3.5 py-2 rounded-full font-bold border whitespace-nowrap transition-all duration-200 ${
               selectedCategory === cat
-                ? 'bg-blue-600/20 text-blue-400 border-blue-500/40 shadow-sm'
-                : 'bg-slate-900/60 text-slate-400 border-slate-800/80 hover:bg-slate-900'
+                ? (isDarkMode ? 'bg-blue-600/20 text-blue-400 border-blue-500/40 shadow-sm' : 'bg-blue-50 text-blue-650 border-blue-200 shadow-sm')
+                : (isDarkMode ? 'bg-slate-900/60 text-slate-400 border-slate-800/80 hover:bg-slate-900' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50')
             }`}
           >
             {cat === 'ALL' ? 'หมวดหมู่ทั้งหมด' : cat}
@@ -131,23 +151,28 @@ export default function InventoryView() {
             const isExpanded = expandedItem === item.part_no;
             const totalStock = getItemTotalStock(item);
             const status = getStockStatus(item);
-            const StatusIcon = status.icon;
 
             return (
               <div 
                 key={item.part_no}
-                className="glass-card rounded-xl overflow-hidden transition-all duration-300 border border-slate-800"
+                className={`rounded-xl overflow-hidden transition-all duration-300 border ${
+                  isDarkMode 
+                    ? 'dark-glass border-slate-800' 
+                    : 'light-glass border-slate-200/80 shadow-sm'
+                }`}
               >
                 {/* Accordion Trigger */}
                 <div 
                   onClick={() => toggleAccordion(item.part_no)}
-                  className="p-4 flex items-center justify-between cursor-pointer active:bg-slate-900/20"
+                  className={`p-4 flex items-center justify-between cursor-pointer transition-colors ${
+                    isDarkMode ? 'active:bg-slate-900/20' : 'active:bg-slate-100/50'
+                  }`}
                 >
                   <div className="flex-1 min-w-0 pr-2">
                     <span className="text-xs text-slate-500 font-bold tracking-wider block mb-0.5 font-mono">{item.part_no}</span>
-                    <h3 className="text-sm font-bold text-slate-200 truncate">{item.name}</h3>
+                    <h3 className={`text-sm font-bold truncate ${isDarkMode ? 'text-slate-200' : 'text-slate-850'}`}>{item.name}</h3>
                     <div className="flex items-center space-x-2 mt-2">
-                      <span className="text-xs text-slate-400 flex items-center font-bold">
+                      <span className={`text-xs flex items-center font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
                         <Layers size={12} className="mr-1 text-slate-500" />
                         {item.category}
                       </span>
@@ -157,13 +182,12 @@ export default function InventoryView() {
                   <div className="flex flex-col items-end space-y-2 pl-2">
                     {/* Status Badge */}
                     <div className={`flex items-center space-x-1 text-xs px-2.5 py-0.5 rounded-full border font-bold ${status.color}`}>
-                      <StatusIcon size={10} />
                       <span>{status.label}</span>
                     </div>
                     {/* Stock Value */}
                     <div className="flex items-center space-x-1">
-                      <span className="text-sm font-bold text-white">{totalStock}</span>
-                      <span className="text-xs text-slate-500 font-bold">ชิ้น</span>
+                      <span className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{totalStock}</span>
+                      <span className={`text-xs font-bold ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>ชิ้น</span>
                     </div>
                   </div>
 
@@ -174,29 +198,37 @@ export default function InventoryView() {
 
                 {/* Accordion Expansion Panel */}
                 {isExpanded && (
-                  <div className="px-4 pb-4 pt-1 bg-slate-950/40 border-t border-slate-900/50 space-y-4">
+                  <div className={`px-4 pb-4 pt-1 border-t space-y-4 transition-colors ${
+                    isDarkMode ? 'bg-[#0f172a]/30 border-slate-900/50' : 'bg-slate-50/50 border-slate-100'
+                  }`}>
                     {/* Branch breakdown */}
                     <div className="space-y-2.5">
-                      <h4 className="text-xs text-slate-400 font-bold tracking-wider uppercase">จำนวนสินค้าคงคลังแยกรายสาขา</h4>
+                      <h4 className={`text-xs font-bold tracking-wider uppercase ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>จำนวนสินค้าคงคลังแยกรายสาขา</h4>
                       
                       <div className="grid grid-cols-3 gap-2">
-                        <div className="bg-slate-900/40 p-3 rounded-lg border border-slate-800 flex flex-col items-center">
-                          <span className="text-xs text-slate-400 text-center font-bold truncate w-full">อยุธยา 1</span>
-                          <span className={`text-xs font-bold mt-1 ${item.stock_B01 === 0 ? 'text-rose-500' : 'text-slate-200'}`}>
+                        <div className={`p-3 rounded-lg border flex flex-col items-center transition-colors ${
+                          isDarkMode ? 'bg-slate-900/40 border-slate-800' : 'bg-white border-slate-205 flex flex-col items-center shadow-sm'
+                        }`}>
+                          <span className={`text-xs text-center font-bold truncate w-full ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>อยุธยา 1</span>
+                          <span className={`text-xs font-bold mt-1 ${item.stock_B01 === 0 ? 'text-rose-600 font-extrabold' : (isDarkMode ? 'text-slate-200' : 'text-slate-800')}`}>
                             {item.stock_B01} ชิ้น
                           </span>
                         </div>
 
-                        <div className="bg-slate-900/40 p-3 rounded-lg border border-slate-800 flex flex-col items-center">
-                          <span className="text-xs text-slate-400 text-center font-bold truncate w-full">อยุธยา 2</span>
-                          <span className={`text-xs font-bold mt-1 ${item.stock_B02 === 0 ? 'text-rose-500' : 'text-slate-200'}`}>
+                        <div className={`p-3 rounded-lg border flex flex-col items-center transition-colors ${
+                          isDarkMode ? 'bg-slate-900/40 border-slate-800' : 'bg-white border-slate-205 flex flex-col items-center shadow-sm'
+                        }`}>
+                          <span className={`text-xs text-center font-bold truncate w-full ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>อยุธยา 2</span>
+                          <span className={`text-xs font-bold mt-1 ${item.stock_B02 === 0 ? 'text-rose-600 font-extrabold' : (isDarkMode ? 'text-slate-200' : 'text-slate-800')}`}>
                             {item.stock_B02} ชิ้น
                           </span>
                         </div>
 
-                        <div className="bg-slate-900/40 p-3 rounded-lg border border-slate-800 flex flex-col items-center">
-                          <span className="text-xs text-slate-400 text-center font-bold truncate w-full">OMODA อยุธยา</span>
-                          <span className={`text-xs font-bold mt-1 ${item.stock_B03 === 0 ? 'text-rose-500' : 'text-slate-200'}`}>
+                        <div className={`p-3 rounded-lg border flex flex-col items-center transition-colors ${
+                          isDarkMode ? 'bg-slate-900/40 border-slate-800' : 'bg-white border-slate-205 flex flex-col items-center shadow-sm'
+                        }`}>
+                          <span className={`text-xs text-center font-bold truncate w-full ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>OMODA อยุธยา</span>
+                          <span className={`text-xs font-bold mt-1 ${item.stock_B03 === 0 ? 'text-rose-600 font-extrabold' : (isDarkMode ? 'text-slate-200' : 'text-slate-800')}`}>
                             {item.stock_B03} ชิ้น
                           </span>
                         </div>
@@ -207,7 +239,7 @@ export default function InventoryView() {
                     <div className="flex items-center justify-between pt-2 border-t border-slate-900/20">
                       <div className="flex flex-col">
                         <span className="text-xs text-slate-500 font-bold">ราคาแนะนำจำหน่าย</span>
-                        <span className="text-sm font-bold text-blue-400">{item.unit_price.toLocaleString()} ฿</span>
+                        <span className={`text-sm font-bold ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>{item.unit_price.toLocaleString()} ฿</span>
                       </div>
                       
                       <button
@@ -228,8 +260,10 @@ export default function InventoryView() {
             );
           })
         ) : (
-          <div className="glass-card rounded-xl p-8 flex flex-col items-center justify-center text-slate-500 space-y-2 border border-slate-800">
-            <Package size={32} className="text-slate-600" />
+          <div className={`rounded-xl p-8 flex flex-col items-center justify-center space-y-2 border ${
+            isDarkMode ? 'bg-slate-900/20 border-slate-800 text-slate-500' : 'bg-white border-slate-200 text-slate-400'
+          }`}>
+            <Package size={32} className="text-slate-500" />
             <p className="text-xs font-bold">ไม่พบรายการอะไหล่ตามที่ระบุ</p>
           </div>
         )}
@@ -238,13 +272,15 @@ export default function InventoryView() {
       {/* Stock Transfer Dialog Overlay Modal */}
       {transferModal && (
         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#0f172a] border border-slate-850 rounded-2xl w-full max-w-sm p-6 space-y-5 shadow-2xl relative">
+          <div className={`border rounded-2xl w-full max-w-sm p-6 space-y-5 shadow-2xl relative transition-colors ${
+            isDarkMode ? 'bg-[#0f172a] border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-850'
+          }`}>
             
             {/* Modal Title */}
             <div className="space-y-1.5">
-              <h3 className="text-base font-bold text-white font-prompt">แบบคำขอโอนย้ายอะไหล่</h3>
-              <p className="text-xs text-slate-300 font-semibold truncate">{transferModal.name}</p>
-              <p className="text-xs text-slate-550 font-bold font-mono">{transferModal.part_no}</p>
+              <h3 className={`text-base font-bold font-prompt ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>แบบคำขอโอนย้ายอะไหล่</h3>
+              <p className={`text-xs font-semibold truncate ${isDarkMode ? 'text-slate-300' : 'text-slate-655'}`}>{transferModal.name}</p>
+              <p className={`text-xs font-bold font-mono ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>{transferModal.part_no}</p>
             </div>
 
             {transferSuccess ? (
@@ -256,12 +292,14 @@ export default function InventoryView() {
               <form onSubmit={handleTransferSubmit} className="space-y-4">
                 {/* Source Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs text-slate-400 font-bold">สาขาต้นทาง (ผู้โอนสินค้าออก)</label>
+                  <label className={`text-xs font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>สาขาต้นทาง (ผู้โอนสินค้าออก)</label>
                   <select
                     required
                     value={fromBranch}
                     onChange={(e) => setFromBranch(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-850 text-slate-200 text-xs rounded-lg px-3 py-2.5 font-bold focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className={`w-full text-xs rounded-lg px-3 py-2.5 font-bold focus:outline-none focus:ring-1 focus:ring-blue-500 border transition-colors ${
+                      isDarkMode ? 'bg-slate-950 border-slate-850 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-800'
+                    }`}
                   >
                     <option value="">-- เลือกศูนย์บริการต้นทาง --</option>
                     <option value="B01" disabled={transferModal.stock_B01 === 0}>Mitsubishi อยุธยา 1 ({transferModal.stock_B01} ชิ้น)</option>
@@ -272,12 +310,14 @@ export default function InventoryView() {
 
                 {/* Target Selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs text-slate-400 font-bold">สาขาปลายทาง (ผู้รับสินค้าเข้า)</label>
+                  <label className={`text-xs font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>สาขาปลายทาง (ผู้รับสินค้าเข้า)</label>
                   <select
                     required
                     value={toBranch}
                     onChange={(e) => setToBranch(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-855 text-slate-200 text-xs rounded-lg px-3 py-2.5 font-bold focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className={`w-full text-xs rounded-lg px-3 py-2.5 font-bold focus:outline-none focus:ring-1 focus:ring-blue-500 border transition-colors ${
+                      isDarkMode ? 'bg-slate-950 border-slate-850 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-800'
+                    }`}
                   >
                     <option value="">-- เลือกศูนย์บริการปลายทาง --</option>
                     <option value="B01" disabled={fromBranch === 'B01'}>Mitsubishi อยุธยา 1 ({transferModal.stock_B01} ชิ้น)</option>
@@ -288,7 +328,7 @@ export default function InventoryView() {
 
                 {/* Quantity */}
                 <div className="space-y-1.5">
-                  <label className="text-xs text-slate-400 font-bold">จำนวนสินค้าที่ขอโอนย้าย (ชิ้น)</label>
+                  <label className={`text-xs font-bold ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>จำนวนสินค้าที่ขอโอนย้าย (ชิ้น)</label>
                   <input
                     type="number"
                     min="1"
@@ -296,7 +336,9 @@ export default function InventoryView() {
                     required
                     value={transferQty}
                     onChange={(e) => setTransferQty(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-855 text-slate-200 text-xs rounded-lg px-3 py-2.5 font-bold focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className={`w-full text-xs rounded-lg px-3 py-2.5 font-bold focus:outline-none focus:ring-1 focus:ring-blue-500 border transition-colors ${
+                      isDarkMode ? 'bg-slate-950 border-slate-850 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-800'
+                    }`}
                   />
                 </div>
 

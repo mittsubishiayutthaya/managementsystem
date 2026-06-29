@@ -3,21 +3,27 @@
 @layer base {
   body {
     font-family: 'Prompt', 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: #0b0f19; /* Carbon deep slate background */
-    color: #f1f5f9; /* Slate-100 high readability */
   }
 }
 
 /* Premium Business Card (Clean Glassmorphism) */
-.glass-card {
-  background: rgba(17, 24, 39, 0.75); /* Darker and more opaque for high contrast */
+.light-glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+.dark-glass {
+  background: rgba(17, 24, 39, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
 }
 
-/* Professional Colors (High Legibility, No glowing accents) */
+/* Professional Borders */
 .border-active-blue {
   border-color: rgba(59, 130, 246, 0.4);
 }
@@ -40,15 +46,23 @@
   height: 6px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(15, 23, 42, 0.05);
   border-radius: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.5);
+  background: rgba(100, 116, 139, 0.3);
   border-radius: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(148, 163, 184, 0.5);
+}
+
+/* Dark mode scrollbar overlay overrides */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.5);
 }
 
 .no-scrollbar::-webkit-scrollbar {
