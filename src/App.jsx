@@ -26,7 +26,8 @@ import {
   Moon,
   Download,
   Share2,
-  PlusSquare
+  PlusSquare,
+  Boxes
 } from 'lucide-react';
 
 export default function App() {
