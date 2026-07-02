@@ -110,7 +110,7 @@ export default function App() {
     };
 
     return (
-      <div className={`min-h-full flex flex-col no-scrollbar transition-colors duration-300 ${
+      <div className={`h-full flex flex-col overflow-hidden transition-colors duration-300 ${
         isDarkMode ? 'bg-[#0b0f19] text-slate-100' : 'bg-[#f8fafc] text-slate-900'
       }`}>
         {/* Brand Header */}
